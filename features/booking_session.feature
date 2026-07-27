@@ -1,3 +1,4 @@
+@time_travel
 Feature: Search posted sessions by subject/time range and book one
   As a signed-in learner
   I want to search posted sessions by subject and time range
