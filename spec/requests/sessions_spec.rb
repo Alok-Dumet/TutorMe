@@ -19,15 +19,16 @@ RSpec.describe "Sessions", type: :request do
 
   describe "GET /sessions/results" do
     let!(:calculus) { create(:subject, name: 'Calculus') }
-    let!(:session1) { create(:tutor_session, subject: calculus, start_at: '2026-03-10T10:00:00Z', end_at: '2026-03-10T11:00:00Z') }
+    let(:base_day) { 1.week.from_now.change(hour: 10, min: 0, sec: 0) }
+    let!(:session1) { create(:tutor_session, subject: calculus, start_at: base_day, end_at: base_day + 1.hour) }
 
     it "returns matching sessions within time range" do
-      session2 = create(:tutor_session, subject: calculus, start_at: '2026-03-10T14:00:00Z', end_at: '2026-03-10T15:00:00Z')
+      session2 = create(:tutor_session, subject: calculus, start_at: base_day + 4.hours, end_at: base_day + 5.hours)
 
       get results_sessions_path, params: {
         subject: 'Calculus',
-        start_at: '2026-03-10T08:00:00Z',
-        end_at: '2026-03-10T20:00:00Z'
+        start_at: (base_day - 2.hours).iso8601,
+        end_at: (base_day + 10.hours).iso8601
       }
 
       expect(response).to have_http_status(:ok)
