@@ -1,5 +1,9 @@
 # See https://git-scm.com/docs/gitattributes for more about git attribute files.
 
+# Executable scripts must use LF so their shebang lines work on Linux (CI, Docker).
+bin/* text eol=lf
+*.sh text eol=lf
+
 # Mark the database schema as having been generated.
 db/schema.rb linguist-generated
 
